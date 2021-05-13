@@ -1,0 +1,9 @@
+[user]
+	email = mail@kevinsjoberg.com
+	name = Kevin Sjöberg
+[alias]
+	git = !git
+[core]
+	excludesfile = /Users/kevinsjoberg/.gitignore
+[pull]
+	ff = only

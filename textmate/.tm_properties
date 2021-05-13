@@ -1,0 +1,13 @@
+PATH       = '$PATH:/usr/local/bin'
+TM_CRYSTAL = '/Users/kevinsjoberg/.asdf/shims/crystal'
+TM_RUBY    = '/Users/kevinsjoberg/.asdf/shims/ruby'
+
+fontName   = "DejaVu Sans Mono"
+fontSize   = 14
+
+[ text.git-commit ]
+disableExtendedAttributes = true
+softWrap                  = false
+spellChecking             = true
+spellingLanguage          = 'en'
+wrapColumn                = 72

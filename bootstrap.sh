@@ -41,8 +41,6 @@ function setup_ssh() {
     op get document "$doc_id" --output "$ssh_dir/$doc_name"
     chmod "$doc_permissions" "$ssh_dir/$doc_name"
   done
-
-  # TODO: Change the dotfiles remote to SSH instead of HTTPS here
 }
 
 function setup_macos() {

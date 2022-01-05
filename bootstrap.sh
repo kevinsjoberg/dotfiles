@@ -41,6 +41,11 @@ function setup_ssh() {
     op get document "$doc_id" --output "$ssh_dir/$doc_name"
     chmod "$doc_permissions" "$ssh_dir/$doc_name"
   done
+
+  if git remote -v | grep -q https; then
+    git remote remove origin
+    git remote add origin git@github.com:kevinsjoberg/dotfiles.git
+  fi
 }
 
 function setup_macos() {
@@ -82,8 +87,6 @@ function setup_macos() {
 
     (cd "$HOME/code/helix" && cargo install --path helix-term)
   fi
-
-  echo "$PWD"
 }
 
 setup_homebrew

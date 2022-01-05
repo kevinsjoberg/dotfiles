@@ -14,6 +14,11 @@ function setup_homebrew() {
 
 
 function setup_macos() {
+  if ! grep $(which fish) /etc/shells > /dev/null 2>&1; then
+    echo $(which fish) | sudo tee -a /etc/shells
+    chsh -s $(which fish)
+  fi
+
   stow --dotfiles --restow asdf
   stow --dotfiles --restow bash
   stow --dotfiles --restow bin
@@ -22,34 +27,32 @@ function setup_macos() {
   stow --dotfiles --restow homebrew
   stow --dotfiles --restow tmux
 
-  # TODO: Setup shell
-  if ! grep $(which fish) /etc/shells > /dev/null 2>&1; then
-    echo $(which fish) | sudo tee -a /etc/shells
+  if ! [[ -d "$HOME/.asdf" ]]; then
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
   fi
 
-  # TODO: Setup asdf
-  asdf plugin add crystal
-  asdf plugin add elm
-  asdf plugin add golang
-  asdf plugin add nodejs
-  asdf plugin add ruby
-  asdf plugin add rust
+  source $HOME/.asdf/asdf.sh
+
+  $(asdf plugin add crystal) || true
+  $(asdf plugin add elm) || true
+  $(asdf plugin add golang) || true
+  $(asdf plugin add nodejs) || true
+  $(asdf plugin add ruby) || true
+  $(asdf plugin add rust) || true
   asdf install
 }
 
 function setup_ssh() {
   local ssh_dir="$HOME/.ssh"
 
-  if [[ -d "$ssh_dir" ]]; then
-    return
+  if ! [[ -d "$ssh_dir" ]]; then
+    mkdir -p "$ssh_dir" && chmod 700 "$ssh_dir"
   fi
 
   if ! type op > /dev/null 2>&1; then
     echo "1Password CLI missing. Installing it..."
     brew install --cask 1password-cli
   fi
-
-  mkdir -p "$ssh_dir" && chmod 700 "$ssh_dir"
 
   eval "$(op signin)"
 

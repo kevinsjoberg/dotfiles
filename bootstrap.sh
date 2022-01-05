@@ -11,37 +11,6 @@ function setup_homebrew() {
   brew bundle
 }
 
-
-
-function setup_macos() {
-  if ! grep $(which fish) /etc/shells > /dev/null 2>&1; then
-    echo $(which fish) | sudo tee -a /etc/shells
-    chsh -s $(which fish)
-  fi
-
-  stow --dotfiles --restow asdf
-  stow --dotfiles --restow bash
-  stow --dotfiles --restow bin
-  stow --dotfiles --restow config
-  stow --dotfiles --restow git
-  stow --dotfiles --restow homebrew
-  stow --dotfiles --restow tmux
-
-  if ! [[ -d "$HOME/.asdf" ]]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
-  fi
-
-  source $HOME/.asdf/asdf.sh
-
-  $(asdf plugin add crystal) || true
-  $(asdf plugin add elm) || true
-  $(asdf plugin add golang) || true
-  $(asdf plugin add nodejs) || true
-  $(asdf plugin add ruby) || true
-  $(asdf plugin add rust) || true
-  asdf install
-}
-
 function setup_ssh() {
   local ssh_dir="$HOME/.ssh"
 
@@ -55,6 +24,11 @@ function setup_ssh() {
   fi
 
   eval "$(op signin)"
+
+  if ! op get account > /dev/null 2>&1; then
+    echo "Not signed in to 1Password. Skipping..."
+    return
+  fi
 
   local doc
   local doc_name
@@ -71,6 +45,49 @@ function setup_ssh() {
   # TODO: Change the dotfiles remote to SSH instead of HTTPS here
 }
 
+function setup_macos() {
+  if ! grep "$(which fish)" /etc/shells > /dev/null 2>&1; then
+    which fish | sudo tee -a /etc/shells
+    chsh -s "$(which fish)"
+  fi
+
+  stow --dotfiles --restow asdf
+  stow --dotfiles --restow bash
+  stow --dotfiles --restow bin
+  stow --dotfiles --restow config
+  stow --dotfiles --restow git
+  stow --dotfiles --restow homebrew
+  stow --dotfiles --restow tmux
+
+  if ! [[ -d "$HOME/.asdf" ]]; then
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
+  fi
+
+  source "$HOME/.asdf/asdf.sh"
+
+  ! asdf plugin list | grep -q crystal && asdf plugin add crystal
+  ! asdf plugin list | grep -q elm && asdf plugin add elm
+  ! asdf plugin list | grep -q golang && asdf plugin add golang
+  ! asdf plugin list | grep -q nodejs && asdf plugin add nodejs
+  ! asdf plugin list | grep -q ruby && asdf plugin add ruby
+  ! asdf plugin list | grep -q rust && asdf plugin add rust
+  asdf install
+
+  if ! [[ -d "$HOME/code" ]]; then
+    mkdir "$HOME/code"
+  fi
+
+  if ! type hx > /dev/null 2>&1; then
+    if ! [[ -d "$HOME/code/helix" ]]; then
+      git clone --recurse-submodules --shallow-submodules -j8 git@github.com:helix-editor/helix.git "$HOME/code/helix"
+    fi
+
+    (cd "$HOME/code/helix" && cargo install --path helix-term)
+  fi
+
+  echo "$PWD"
+}
+
 setup_homebrew
-setup_macos
 setup_ssh
+setup_macos

@@ -53,7 +53,6 @@ cask "slack"
 cask "temurin"
 cask "tuple"
 cask "zoom"
-mas "Flow", id: 1423210932
 mas "Moom", id: 419330170
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541

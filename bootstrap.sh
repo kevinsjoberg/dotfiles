@@ -3,26 +3,38 @@ set -eo pipefail
 
 echo "Setting up dotfiles..."
 
-stow --dotfiles --restow asdf
-stow --dotfiles --restow bash
-stow --dotfiles --restow bin
-stow --dotfiles --restow config
-stow --dotfiles --restow git
-stow --dotfiles --restow homebrew
-stow --dotfiles --restow textmate
-stow --dotfiles --restow tmux
-
 function setup_homebrew() {
   if ! type brew > /dev/null 2>&1; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 
-  brewfoster restore
+  brew bundle
 }
 
+
+
 function setup_macos() {
-  # TODO: Configure macOS here
-  true
+  stow --dotfiles --restow asdf
+  stow --dotfiles --restow bash
+  stow --dotfiles --restow bin
+  stow --dotfiles --restow config
+  stow --dotfiles --restow git
+  stow --dotfiles --restow homebrew
+  stow --dotfiles --restow tmux
+
+  # TODO: Setup shell
+  if ! grep $(which fish) /etc/shells > /dev/null 2>&1; then
+    echo $(which fish) | sudo tee -a /etc/shells
+  fi
+
+  # TODO: Setup asdf
+  asdf plugin add crystal
+  asdf plugin add elm
+  asdf plugin add golang
+  asdf plugin add nodejs
+  asdf plugin add ruby
+  asdf plugin add rust
+  asdf install
 }
 
 function setup_ssh() {
@@ -59,5 +71,3 @@ function setup_ssh() {
 setup_homebrew
 setup_macos
 setup_ssh
-
-# TODO add /usr/local/bin/bash to /etc/shells and run chsh -s /usr/local/bin/bash

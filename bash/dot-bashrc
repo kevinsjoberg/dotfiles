@@ -36,8 +36,8 @@ PROMPT_DIRTRIM=2
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
-# Use TextMate as the interactive editor.
-export EDITOR="mate -w"
+# Use Helix as the interactive editor.
+export EDITOR="hx"
 
 # Enable colors for the ls-command.
 export CLICOLOR=1

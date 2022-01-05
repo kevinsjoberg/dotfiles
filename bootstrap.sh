@@ -3,10 +3,22 @@ set -eo pipefail
 
 echo "Setting up dotfiles..."
 
+stow -R asdf
+stow -R bash
+stow -R bin
+stow -R config
+stow -R ctags
+stow -R git
+stow -R homebrew
+stow -R textmate
+stow -R tmux
+
 function setup_homebrew() {
   if ! type brew > /dev/null 2>&1; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
+
+  brewfoster restore
 }
 
 function setup_macos() {
@@ -47,11 +59,5 @@ function setup_ssh() {
 setup_homebrew
 setup_macos
 setup_ssh
-
-brew bundle
-stow asdf
-stow bash
-stow git
-stow textmate
 
 # TODO add /usr/local/bin/bash to /etc/shells and run chsh -s /usr/local/bin/bash

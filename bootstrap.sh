@@ -3,15 +3,14 @@ set -eo pipefail
 
 echo "Setting up dotfiles..."
 
-stow -R asdf
-stow -R bash
-stow -R bin
-stow -R config
-stow -R ctags
-stow -R git
-stow -R homebrew
-stow -R textmate
-stow -R tmux
+stow --dotfiles --restow asdf
+stow --dotfiles --restow bash
+stow --dotfiles --restow bin
+stow --dotfiles --restow config
+stow --dotfiles --restow git
+stow --dotfiles --restow homebrew
+stow --dotfiles --restow textmate
+stow --dotfiles --restow tmux
 
 function setup_homebrew() {
   if ! type brew > /dev/null 2>&1; then
@@ -23,6 +22,7 @@ function setup_homebrew() {
 
 function setup_macos() {
   # TODO: Configure macOS here
+  true
 }
 
 function setup_ssh() {

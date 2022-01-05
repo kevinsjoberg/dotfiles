@@ -1,9 +1,19 @@
-PATH       = '$PATH:/usr/local/bin'
-TM_CRYSTAL = '/Users/kevinsjoberg/.asdf/shims/crystal'
-TM_RUBY    = '/Users/kevinsjoberg/.asdf/shims/ruby'
+# Include asdf shims in PATH
+PATH = "/Users/kevinsjoberg/.asdf/shims:/Users/kevinsjoberg/.asdf/bin:/usr/local/bin:$PATH"
+PKG_CONFIG_PATH = "/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
-fontName   = "DejaVu Sans Mono"
-fontSize   = 14
+# Specify CTags binary
+TmCtagsAlternatePgm = "/usr/local/bin/ctags"
+
+# Specify Markdown binary
+TM_MARKDOWN = "/usr/local/bin/multimarkdown"
+
+# Font settings
+fontName = "DejaVu Sans Mono"
+fontSize = 14
+
+# Exclude
+exclude = "{$exclude,tmtags,tmtagsHistory}"
 
 [ text.git-commit ]
 disableExtendedAttributes = true

@@ -1,2 +1,6 @@
 ruby 3.0.0
-crystal 1.0.0
+crystal 1.2.1
+nodejs 17.3.0
+elm 0.19.1
+rust 1.57.0
+golang 1.17.5

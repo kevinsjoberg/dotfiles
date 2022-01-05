@@ -1,5 +1,9 @@
+*.sublime-project
+*.sublime-workspace
+.bin
 .envrc
 .tm_properties
+.tool-versions
+tags
 tmtags
 tmtagsHistory
-.bin

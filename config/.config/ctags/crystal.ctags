@@ -1,0 +1,16 @@
+--langdef=crystal
+
+--map-crystal=.cr
+
+--kinddef-crystal=a,macro,macros
+--kinddef-crystal=c,class,classes
+--kinddef-crystal=m,method,methods
+--kinddef-crystal=M,module,modules
+--kinddef-crystal=s,struct,structs
+
+--regex-crystal=/^[ \t]*(private[ \t]+)?(abstract[ \t]+)?class[ \t]+([A-Z][A-Za-z0-9_]*::)*([A-Z][A-Za-z0-9_]*)/\4/c/{scope=push}
+--regex-crystal=/^[ \t]*(private[ \t]+)?(abstract[ \t]+)?struct[ \t]+([A-Z][A-Za-z0-9_]*::)*([A-Z][A-Za-z0-9_]*)/\4/s/{scope=push}
+--regex-crystal=/^[ \t]*(private[ \t]+)?macro[ \t]+([a-z_][a-zA-Z0-9_?!]+)/\2/a/{scope=push}
+--regex-crystal=/^[ \t]*(private[ \t]+)?module[ \t]+([A-Z][A-Za-z0-9_]*::)*([A-Z][A-Za-z0-9_]*)/\3/M/{scope=push}
+--regex-crystal=/^[ \t]*(private[ \t]+|protected[ \t]+)?(abstract[ \t]+)?def[ \t]+([a-z_][a-zA-Z0-9_?!]+)/\3/m/{scope=push}
+--regex-crystal=/^[ \t]*end///{scope=pop}{placeholder}

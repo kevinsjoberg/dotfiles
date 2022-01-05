@@ -7,3 +7,5 @@
 	excludesfile = /Users/kevinsjoberg/.gitignore
 [pull]
 	ff = only
+[init]
+	defaultBranch = main

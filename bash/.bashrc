@@ -57,8 +57,12 @@ fi
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # Enable direnv.
-if type foo > /dev/null 2>&1; then
+if type direnv >/dev/null 2>&1; then
   eval "$(direnv hook bash)"
+
+  if type tmux >/dev/null 2>&1; then
+    alias tmux='direnv exec / tmux'
+  fi
 fi
 
 # Enable asdf.
@@ -66,3 +70,9 @@ if [[ -d "$HOME/.asdf" ]]; then
   . $HOME/.asdf/asdf.sh
   . $HOME/.asdf/completions/asdf.bash
 fi
+
+# Enable fzf.
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Enable nnn plugins.
+export NNN_PLUG='o:fzopen'
